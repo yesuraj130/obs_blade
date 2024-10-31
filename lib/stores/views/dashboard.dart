@@ -75,6 +75,7 @@ import '../../types/enums/settings_keys.dart';
 import '../../utils/general_helper.dart';
 import '../../utils/network_helper.dart';
 import '../../utils/overlay_handler.dart';
+import '../../views/dashboard/widgets/scenes/scene_content/scene_content_mobile.dart';
 import '../shared/network.dart';
 
 part 'dashboard.g.dart';
@@ -134,11 +135,18 @@ abstract class _DashboardStore with Store {
   @observable
   ObservableList<SceneItem> currentSceneItems = ObservableList();
 
+  @observable
+  ObservableList<SceneItem> allSceneItems = ObservableList();
+
+  @observable
+  ObservableList<ObservableSceneItems> sceneItems = ObservableList();
+
   @computed
   ObservableList<SceneItem> get mediaSceneItems =>
-      ObservableList.of(this.currentSceneItems.where((sceneItem) =>
-          (sceneItem.inputKind?.toLowerCase().contains('ffmpeg') ?? false) &&
-          (sceneItem.sceneItemEnabled ?? false)));
+      ObservableList.of(this.currentSceneItems);
+  // .where((sceneItem) =>
+  //     (sceneItem.inputKind?.toLowerCase().contains('ffmpeg') ?? false) &&
+  //     (sceneItem.sceneItemEnabled ?? false)));
 
   /// Will contain all inputs returned by [GetInputList] which will even contian
   /// special inputs etc.
@@ -709,6 +717,28 @@ abstract class _DashboardStore with Store {
       }
       return currentSceneItem;
     }));
+
+    this.allSceneItems =
+        ObservableList.of(this.allSceneItems.map((currentSceneItem) {
+      if (currentSceneItem == sceneItem) {
+        return currentSceneItem.copyWith(
+          displayGroup: !sceneItem.displayGroup,
+        );
+      }
+      return currentSceneItem;
+    }));
+
+    this.sceneItems = ObservableList.of(this.sceneItems.map((y) {
+      return ObservableSceneItems(y.sceneName,
+          sceneItems: ObservableList.of(y.sceneItems.map((x) {
+        if (x == sceneItem) {
+          return x.copyWith(
+            displayGroup: !sceneItem.displayGroup,
+          );
+        }
+        return x;
+      })));
+    }));
   }
 
   @action
@@ -967,6 +997,43 @@ abstract class _DashboardStore with Store {
           }
           return sceneItem;
         }));
+
+        this.allSceneItems =
+            ObservableList.of(this.allSceneItems.map((sceneItem) {
+          if (sceneItem.sceneItemId ==
+                  sceneItemEnableStateChangedEvent.sceneItemId &&
+              sceneItem.sceneName ==
+                  sceneItemEnableStateChangedEvent.sceneName) {
+            return sceneItem.copyWith(
+              sceneItemEnabled:
+                  sceneItemEnableStateChangedEvent.sceneItemEnabled,
+            );
+          }
+          return sceneItem;
+        }));
+
+        this.sceneItems = ObservableList.of(this.sceneItems.map((y) {
+          if (y.sceneName == sceneItemEnableStateChangedEvent.sceneName) {
+            return ObservableSceneItems(y.sceneName,
+                sceneItems: ObservableList.of(y.sceneItems.map((x) {
+              if (x.sceneItemId ==
+                  sceneItemEnableStateChangedEvent.sceneItemId) {
+                return x.copyWith(
+                  sceneItemEnabled:
+                      sceneItemEnableStateChangedEvent.sceneItemEnabled,
+                );
+              }
+              return x;
+            })));
+          }
+          return y;
+        }));
+
+        // NetworkHelper.makeRequest(
+        //   GetIt.instance<NetworkStore>().activeSession!.socket,
+        //   RequestType.GetSceneList,
+        // );
+
         break;
       case EventType.InputAudioSyncOffsetChanged:
         InputAudioSyncOffsetChangedEvent inputAudioSyncOffsetChangedEvent =
@@ -1058,18 +1125,19 @@ abstract class _DashboardStore with Store {
         this.scenes = ObservableList.of([...getSceneListResponse.scenes]
           ..sort((a, b) => b.sceneIndex - a.sceneIndex));
 
-        NetworkHelper.makeRequest(
-          GetIt.instance<NetworkStore>().activeSession!.socket,
-          RequestType.GetSceneItemList,
-          {
-            'sceneName': Hive.box(HiveKeys.Settings.name).get(
-                        SettingsKeys.ExposeStudioControls.name,
-                        defaultValue: false) &&
-                    this.studioMode
-                ? this.studioModePreviewSceneName
-                : this.activeSceneName,
-          },
-        );
+        sceneItems.clear();
+        allSceneItems.clear();
+
+        for (Scene scene in getSceneListResponse.scenes) {
+          NetworkHelper.makeRequest(
+            GetIt.instance<NetworkStore>().activeSession!.socket,
+            RequestType.GetSceneItemList,
+            {
+              'sceneName': scene.sceneName,
+            },
+          );
+        }
+
         break;
       case RequestType.GetSceneCollectionList:
         GetSceneCollectionListResponse getSceneCollectionListResponse =
@@ -1094,10 +1162,31 @@ abstract class _DashboardStore with Store {
         GetSceneItemListResponse getSceneItemListResponse =
             GetSceneItemListResponse(response.jsonRAW);
 
-        this.currentSceneItems =
-            ObservableList.of(getSceneItemListResponse.sceneItems)
-              ..sort((sc1, sc2) =>
-                  (sc2.sceneItemIndex ?? 0) - (sc1.sceneItemIndex ?? 0));
+        String sceneName = NetworkHelper.getRequestBodyForUUID(
+            getSceneItemListResponse.uuid)!['sceneName'];
+
+        if (((Hive.box(HiveKeys.Settings.name).get(
+                        SettingsKeys.ExposeStudioControls.name,
+                        defaultValue: false) &&
+                    this.studioMode
+                ? this.studioModePreviewSceneName
+                : this.activeSceneName) ==
+            sceneName)) {
+          this.currentSceneItems = ObservableList.of(getSceneItemListResponse
+              .sceneItems
+              .map((x) => x.copyWith(sceneName: sceneName)))
+            ..sort((sc1, sc2) =>
+                (sc2.sceneItemIndex ?? 0) - (sc1.sceneItemIndex ?? 0));
+        }
+
+        this.sceneItems.add(ObservableSceneItems(sceneName,
+            sceneItems: ObservableList.of(getSceneItemListResponse.sceneItems
+                .map((x) => x.copyWith(sceneName: sceneName)))));
+
+        this.allSceneItems.addAll(getSceneItemListResponse.sceneItems
+            .map((x) => x.copyWith(sceneName: sceneName)));
+
+        // GeneralHelper.advLog(this.sceneItems.first.sceneName);
 
         this.fetchSceneItemsFilters();
 

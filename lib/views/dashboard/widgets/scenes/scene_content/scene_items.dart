@@ -4,9 +4,9 @@ import 'package:get_it/get_it.dart';
 
 import '../../../../../../shared/general/nested_list_manager.dart';
 import '../../../../../../stores/views/dashboard.dart';
-import '../placeholder_scene_item.dart';
-import '../visibility_slide_wrapper.dart';
-import 'scene_item_tile.dart';
+import 'placeholder_scene_item.dart';
+import 'scene_items/scene_item_tile.dart';
+import 'visibility_slide_wrapper.dart';
 
 class SceneItems extends StatefulWidget {
   const SceneItems({

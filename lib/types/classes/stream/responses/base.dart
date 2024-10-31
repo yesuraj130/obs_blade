@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:obs_blade/types/enums/web_socket_codes/web_socket_op_code.dart';
 
 import '../../../enums/request_type.dart';
@@ -57,5 +59,10 @@ class BaseResponse implements Message {
   RequestType get requestType {
     return RequestType.values
         .firstWhere((type) => type.name == this.jsonRAW['d']['requestType']);
+  }
+
+  String get jsonResponse {
+    const JsonCodec json = JsonCodec();
+    return json.encode(this.jsonRAW);
   }
 }

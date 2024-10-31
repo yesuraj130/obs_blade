@@ -83,11 +83,12 @@ class SceneItemTile extends StatelessWidget {
                   /// 'sceneName' property if we are toggling a child of a
                   /// group...
                   'sceneName': this.sceneItem.parentGroupName ??
-                      (settingsBox.get(SettingsKeys.ExposeStudioControls.name,
-                                  defaultValue: false) &&
-                              dashboardStore.studioMode
-                          ? dashboardStore.studioModePreviewSceneName
-                          : dashboardStore.activeSceneName),
+                      // (settingsBox.get(SettingsKeys.ExposeStudioControls.name,
+                      //             defaultValue: false) &&
+                      //         dashboardStore.studioMode
+                      //     ? dashboardStore.studioModePreviewSceneName
+                      //     : dashboardStore.activeSceneName),
+                      this.sceneItem.sceneName,
                   'sceneItemId': this.sceneItem.sceneItemId,
                   'sceneItemEnabled': !this.sceneItem.sceneItemEnabled!,
                 },

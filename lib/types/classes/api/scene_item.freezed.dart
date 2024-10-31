@@ -36,6 +36,8 @@ mixin _$SceneItem {
   /// OPTIONAL - Name of the item's parent (if this item belongs to a group)
   String? get parentGroupName => throw _privateConstructorUsedError;
 
+  String? get sceneName => throw _privateConstructorUsedError;
+
   /// OPTIONAL - List of children (if this item is a group)
   List<SceneItem>? get groupChildren => throw _privateConstructorUsedError;
 
@@ -68,6 +70,7 @@ abstract class $SceneItemCopyWith<$Res> {
       String? sourceType,
       List<Filter> filters,
       String? parentGroupName,
+      String? sceneName,
       List<SceneItem>? groupChildren,
       bool displayGroup});
 
@@ -99,6 +102,7 @@ class _$SceneItemCopyWithImpl<$Res, $Val extends SceneItem>
     Object? sourceType = freezed,
     Object? filters = null,
     Object? parentGroupName = freezed,
+    Object? sceneName = freezed,
     Object? groupChildren = freezed,
     Object? displayGroup = null,
   }) {
@@ -151,6 +155,10 @@ class _$SceneItemCopyWithImpl<$Res, $Val extends SceneItem>
           ? _value.parentGroupName
           : parentGroupName // ignore: cast_nullable_to_non_nullable
               as String?,
+      sceneName: freezed == sceneName
+          ? _value.sceneName
+          : sceneName // ignore: cast_nullable_to_non_nullable
+              as String?,
       groupChildren: freezed == groupChildren
           ? _value.groupChildren
           : groupChildren // ignore: cast_nullable_to_non_nullable
@@ -197,6 +205,7 @@ abstract class _$$SceneItemImplCopyWith<$Res>
       String? sourceType,
       List<Filter> filters,
       String? parentGroupName,
+      String? sceneName,
       List<SceneItem>? groupChildren,
       bool displayGroup});
 
@@ -227,6 +236,7 @@ class __$$SceneItemImplCopyWithImpl<$Res>
     Object? sourceType = freezed,
     Object? filters = null,
     Object? parentGroupName = freezed,
+    Object? sceneName = freezed,
     Object? groupChildren = freezed,
     Object? displayGroup = null,
   }) {
@@ -279,6 +289,10 @@ class __$$SceneItemImplCopyWithImpl<$Res>
           ? _value.parentGroupName
           : parentGroupName // ignore: cast_nullable_to_non_nullable
               as String?,
+      sceneName: freezed == sceneName
+          ? _value.sceneName
+          : sceneName // ignore: cast_nullable_to_non_nullable
+              as String?,
       groupChildren: freezed == groupChildren
           ? _value._groupChildren
           : groupChildren // ignore: cast_nullable_to_non_nullable
@@ -307,6 +321,7 @@ class _$SceneItemImpl implements _SceneItem {
       required this.sourceType,
       final List<Filter> filters = const [],
       this.parentGroupName,
+      this.sceneName,
       final List<SceneItem>? groupChildren,
       this.displayGroup = false})
       : _filters = filters,
@@ -347,6 +362,9 @@ class _$SceneItemImpl implements _SceneItem {
   /// OPTIONAL - Name of the item's parent (if this item belongs to a group)
   @override
   final String? parentGroupName;
+
+  @override
+  final String? sceneName;
 
   /// OPTIONAL - List of children (if this item is a group)
   final List<SceneItem>? _groupChildren;
@@ -400,6 +418,8 @@ class _$SceneItemImpl implements _SceneItem {
             const DeepCollectionEquality().equals(other._filters, _filters) &&
             (identical(other.parentGroupName, parentGroupName) ||
                 other.parentGroupName == parentGroupName) &&
+            (identical(other.sceneName, sceneName) ||
+                other.sceneName == sceneName) &&
             const DeepCollectionEquality()
                 .equals(other._groupChildren, _groupChildren) &&
             (identical(other.displayGroup, displayGroup) ||
@@ -422,6 +442,7 @@ class _$SceneItemImpl implements _SceneItem {
       sourceType,
       const DeepCollectionEquality().hash(_filters),
       parentGroupName,
+      sceneName,
       const DeepCollectionEquality().hash(_groupChildren),
       displayGroup);
 
@@ -453,6 +474,7 @@ abstract class _SceneItem implements SceneItem {
       required final String? sourceType,
       final List<Filter> filters,
       final String? parentGroupName,
+      final String? sceneName,
       final List<SceneItem>? groupChildren,
       final bool displayGroup}) = _$SceneItemImpl;
 
@@ -485,6 +507,8 @@ abstract class _SceneItem implements SceneItem {
 
   /// OPTIONAL - Name of the item's parent (if this item belongs to a group)
   String? get parentGroupName;
+  @override
+  String? get sceneName;
   @override
 
   /// OPTIONAL - List of children (if this item is a group)

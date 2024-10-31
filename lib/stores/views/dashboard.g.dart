@@ -363,6 +363,38 @@ mixin _$DashboardStore on _DashboardStore, Store {
     });
   }
 
+  late final _$allSceneItemsAtom =
+      Atom(name: '_DashboardStore.allSceneItems', context: context);
+
+  @override
+  ObservableList<SceneItem> get allSceneItems {
+    _$allSceneItemsAtom.reportRead();
+    return super.allSceneItems;
+  }
+
+  @override
+  set allSceneItems(ObservableList<SceneItem> value) {
+    _$allSceneItemsAtom.reportWrite(value, super.allSceneItems, () {
+      super.allSceneItems = value;
+    });
+  }
+
+  late final _$sceneItemsAtom =
+      Atom(name: '_DashboardStore.sceneItems', context: context);
+
+  @override
+  ObservableList<ObservableSceneItems> get sceneItems {
+    _$sceneItemsAtom.reportRead();
+    return super.sceneItems;
+  }
+
+  @override
+  set sceneItems(ObservableList<ObservableSceneItems> value) {
+    _$sceneItemsAtom.reportWrite(value, super.sceneItems, () {
+      super.sceneItems = value;
+    });
+  }
+
   late final _$allInputsAtom =
       Atom(name: '_DashboardStore.allInputs', context: context);
 

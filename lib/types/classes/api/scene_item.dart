@@ -23,6 +23,7 @@ class SceneItem with _$SceneItem {
 
     /// OPTIONAL - Name of the item's parent (if this item belongs to a group)
     String? parentGroupName,
+    String? sceneName,
 
     /// OPTIONAL - List of children (if this item is a group)
     List<SceneItem>? groupChildren,

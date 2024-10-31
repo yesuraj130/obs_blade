@@ -28,22 +28,22 @@ class StatusAppBar extends StatelessWidget {
     return TransculentSliverAppBar(
       pinned: true,
       elevation: 0,
-      toolbarHeight: kTextTabBarHeight + 24.0,
+      toolbarHeight: kTextTabBarHeight /* + 24.0 */,
       backgroundColor: !StylingHelper.isApple(context)
           ? Theme.of(context).appBarTheme.backgroundColor!.withOpacity(1.0)
           : null,
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(24.0),
-        child: Column(
-          children: [
-            BaseDivider(),
-            Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-              child: StreamRecTimers(),
-            ),
-          ],
-        ),
-      ),
+      // bottom: const PreferredSize(
+      //   preferredSize: Size.fromHeight(24.0),
+      //   child: Column(
+      //     children: [
+      //       BaseDivider(),
+      //       Padding(
+      //         padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+      //         child: StreamRecTimers(),
+      //       ),
+      //     ],
+      //   ),
+      // ),
       title: Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -80,41 +80,41 @@ class StatusAppBar extends StatelessWidget {
                 'Dashboard',
                 style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 2.0, bottom: 2.0),
-                child: Observer(builder: (context) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      StatusDot(
-                        key: Key(dashboardStore.isLive.toString()),
-                        size: 10.0,
-                        color: dashboardStore.isLive
-                            ? CupertinoColors.activeGreen
-                            : CupertinoColors.destructiveRed,
-                        text: dashboardStore.isLive ? 'Live' : 'Not Live',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                      const SizedBox(width: 8.0),
-                      StatusDot(
-                        key: Key(
-                            '${dashboardStore.isRecording.toString()}+${dashboardStore.isRecordingPaused.toString()}'),
-                        size: 10.0,
-                        color: dashboardStore.isRecording
-                            ? dashboardStore.isRecordingPaused
-                                ? CupertinoColors.activeOrange
-                                : CupertinoColors.activeGreen
-                            : CupertinoColors.destructiveRed,
-                        text: dashboardStore.isRecording
-                            ? dashboardStore.isRecordingPaused
-                                ? 'Paused Recording'
-                                : 'Recording'
-                            : 'Not Recording',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  );
-                }),
+              const Padding(
+                padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+                // child: Observer(builder: (context) {
+                // return Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     StatusDot(
+                //       key: Key(dashboardStore.isLive.toString()),
+                //       size: 10.0,
+                //       color: dashboardStore.isLive
+                //           ? CupertinoColors.activeGreen
+                //           : CupertinoColors.destructiveRed,
+                //       text: dashboardStore.isLive ? 'Live' : 'Not Live',
+                //       style: Theme.of(context).textTheme.bodySmall,
+                //     ),
+                //     const SizedBox(width: 8.0),
+                //     StatusDot(
+                //       key: Key(
+                //           '${dashboardStore.isRecording.toString()}+${dashboardStore.isRecordingPaused.toString()}'),
+                //       size: 10.0,
+                //       color: dashboardStore.isRecording
+                //           ? dashboardStore.isRecordingPaused
+                //               ? CupertinoColors.activeOrange
+                //               : CupertinoColors.activeGreen
+                //           : CupertinoColors.destructiveRed,
+                //       text: dashboardStore.isRecording
+                //           ? dashboardStore.isRecordingPaused
+                //               ? 'Paused Recording'
+                //               : 'Recording'
+                //           : 'Not Recording',
+                //       style: Theme.of(context).textTheme.bodySmall,
+                //     ),
+                //   ],
+                // );
+                // }),
               ),
             ],
           ),
