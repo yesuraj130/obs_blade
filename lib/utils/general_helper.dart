@@ -19,9 +19,11 @@ class GeneralHelper {
 
 class ObservableSceneItems {
   ObservableSceneItems(
-    this.sceneName, {
+    this.sceneName,
+    this.sceneIndex, {
     required this.sceneItems,
   });
   String sceneName;
+  int sceneIndex;
   ObservableList<SceneItem> sceneItems;
 }

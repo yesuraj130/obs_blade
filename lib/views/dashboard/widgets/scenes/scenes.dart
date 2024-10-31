@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:obs_blade/views/dashboard/widgets/scenes/profile_scene_collection/profile_scene_collection.dart';
+import 'package:obs_blade/views/dashboard/widgets/scenes/scene_content/all_scene_contents_mobile.dart';
 import 'package:obs_blade/views/dashboard/widgets/scenes/studio_mode_checkbox.dart';
 import 'package:obs_blade/views/dashboard/widgets/scenes/studio_mode_transition_button.dart';
 import 'package:obs_blade/views/dashboard/widgets/scenes/transition_controls.dart';
@@ -69,7 +70,7 @@ class Scenes extends StatelessWidget {
         ScenePreview(),
         SizedBox(height: 24.0),
         ResponsiveWidgetWrapper(
-          mobileWidget: SceneContentMobile(),
+          mobileWidget: AllSceneContentsMobile(),
 
           // mobileWidget: DynamicTabBarWidget(
           //     onTabControllerUpdated: (p0) => {},

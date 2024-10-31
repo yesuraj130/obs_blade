@@ -729,7 +729,7 @@ abstract class _DashboardStore with Store {
     }));
 
     this.sceneItems = ObservableList.of(this.sceneItems.map((y) {
-      return ObservableSceneItems(y.sceneName,
+      return ObservableSceneItems(y.sceneName, y.sceneIndex,
           sceneItems: ObservableList.of(y.sceneItems.map((x) {
         if (x == sceneItem) {
           return x.copyWith(
@@ -1014,7 +1014,7 @@ abstract class _DashboardStore with Store {
 
         this.sceneItems = ObservableList.of(this.sceneItems.map((y) {
           if (y.sceneName == sceneItemEnableStateChangedEvent.sceneName) {
-            return ObservableSceneItems(y.sceneName,
+            return ObservableSceneItems(y.sceneName, y.sceneIndex,
                 sceneItems: ObservableList.of(y.sceneItems.map((x) {
               if (x.sceneItemId ==
                   sceneItemEnableStateChangedEvent.sceneItemId) {
@@ -1125,7 +1125,7 @@ abstract class _DashboardStore with Store {
         this.scenes = ObservableList.of([...getSceneListResponse.scenes]
           ..sort((a, b) => b.sceneIndex - a.sceneIndex));
 
-        sceneItems.clear();
+        // sceneItems.clear();
         allSceneItems.clear();
 
         for (Scene scene in getSceneListResponse.scenes) {
@@ -1134,6 +1134,7 @@ abstract class _DashboardStore with Store {
             RequestType.GetSceneItemList,
             {
               'sceneName': scene.sceneName,
+              'sceneIndex': scene.sceneIndex,
             },
           );
         }
@@ -1162,8 +1163,12 @@ abstract class _DashboardStore with Store {
         GetSceneItemListResponse getSceneItemListResponse =
             GetSceneItemListResponse(response.jsonRAW);
 
-        String sceneName = NetworkHelper.getRequestBodyForUUID(
-            getSceneItemListResponse.uuid)!['sceneName'];
+        Map<String, dynamic>? scene =
+            NetworkHelper.getRequestBodyForUUID(getSceneItemListResponse.uuid);
+
+        String sceneName = scene!['sceneName'];
+
+        int sceneIndex = scene['sceneIndex'];
 
         if (((Hive.box(HiveKeys.Settings.name).get(
                         SettingsKeys.ExposeStudioControls.name,
@@ -1178,13 +1183,23 @@ abstract class _DashboardStore with Store {
             ..sort((sc1, sc2) =>
                 (sc2.sceneItemIndex ?? 0) - (sc1.sceneItemIndex ?? 0));
         }
+        if (this.sceneItems.where((x) => x.sceneName == sceneName).isEmpty &&
+            !sceneName.startsWith('_')) {
+          this.sceneItems.add(ObservableSceneItems(sceneName, sceneIndex,
+              sceneItems: ObservableList.of(getSceneItemListResponse.sceneItems
+                  .map((x) => x.copyWith(sceneName: sceneName)))
+                ..sort((sc1, sc2) =>
+                    (sc2.sceneItemIndex ?? 0) - (sc1.sceneItemIndex ?? 0))));
+        }
 
-        this.sceneItems.add(ObservableSceneItems(sceneName,
-            sceneItems: ObservableList.of(getSceneItemListResponse.sceneItems
-                .map((x) => x.copyWith(sceneName: sceneName)))));
+        this.sceneItems = this.sceneItems
+          ..sort((sc1, sc2) => (sc2.sceneIndex) - (sc1.sceneIndex));
 
-        this.allSceneItems.addAll(getSceneItemListResponse.sceneItems
-            .map((x) => x.copyWith(sceneName: sceneName)));
+        this.allSceneItems.addAll(ObservableList.of(getSceneItemListResponse
+            .sceneItems
+            .map((x) => x.copyWith(sceneName: sceneName)))
+          ..sort((sc1, sc2) =>
+              (sc2.sceneItemIndex ?? 0) - (sc1.sceneItemIndex ?? 0)));
 
         // GeneralHelper.advLog(this.sceneItems.first.sceneName);
 

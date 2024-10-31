@@ -8,16 +8,19 @@ import '../placeholder_scene_item.dart';
 import '../visibility_slide_wrapper.dart';
 import 'scene_item_tile.dart';
 
-class AllSceneItems extends StatefulWidget {
-  const AllSceneItems({
+class NamedSceneItems extends StatefulWidget {
+  const NamedSceneItems({
     super.key,
+    required this.sceneName,
   });
 
+  final String sceneName;
+
   @override
-  _AllSceneItemsState createState() => _AllSceneItemsState();
+  _NamedSceneItemsState createState() => _NamedSceneItemsState();
 }
 
-class _AllSceneItemsState extends State<AllSceneItems>
+class _NamedSceneItemsState extends State<NamedSceneItems>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _controller = ScrollController();
 
@@ -41,13 +44,21 @@ class _AllSceneItemsState extends State<AllSceneItems>
             physics: const ClampingScrollPhysics(),
             padding: const EdgeInsets.only(top: 12.0),
             children: [
-              ...dashboardStore.allSceneItems.isNotEmpty
-                  ? dashboardStore.allSceneItems
+              ...dashboardStore.sceneItems
+                      .firstWhere((x) => x.sceneName == widget.sceneName)
+                      .sceneItems
+                      .isNotEmpty
+                  ? dashboardStore.sceneItems
+                      .firstWhere((x) => x.sceneName == widget.sceneName)
+                      .sceneItems
                       .where(
                         (sceneItem) =>
                             sceneItem.parentGroupName == null ||
                             (sceneItem.parentGroupName != null &&
-                                dashboardStore.allSceneItems
+                                dashboardStore.sceneItems
+                                    .firstWhere(
+                                        (x) => x.sceneName == widget.sceneName)
+                                    .sceneItems
                                     .firstWhere((parentSceneItem) =>
                                         parentSceneItem.sourceName ==
                                         sceneItem.parentGroupName)

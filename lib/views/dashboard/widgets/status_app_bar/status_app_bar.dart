@@ -77,7 +77,7 @@ class StatusAppBar extends StatelessWidget {
           Column(
             children: <Widget>[
               Text(
-                'Dashboard',
+                'HJM OBS Dashboard',
                 style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
               ),
               const Padding(
