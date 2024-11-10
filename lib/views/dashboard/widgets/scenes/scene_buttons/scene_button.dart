@@ -26,7 +26,7 @@ class SceneButton extends StatelessWidget {
     required this.scene,
     required this.visible,
     required this.onVisibilityTap,
-    this.height = 100.0,
+    this.height = 50.0,
     this.width = 100.0,
   });
 
@@ -88,7 +88,9 @@ class SceneButton extends StatelessWidget {
               ),
               height: this.height,
               width: this.width,
-              text: scene.sceneName,
+              text: scene.sceneName.startsWith('_')
+                  ? scene.sceneName.substring(1)
+                  : scene.sceneName,
               onTap: () {
                 if (dashboardStore.editSceneVisibility) {
                   this.onVisibilityTap();

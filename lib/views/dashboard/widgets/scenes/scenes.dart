@@ -31,7 +31,7 @@ class Scenes extends StatelessWidget {
       children: [
         // ProfileSceneCollection(),
         // ExposedControls(),
-        // SizedBox(height: 24.0),
+        SizedBox(height: 6.0),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.end,
         //   children: [
@@ -56,8 +56,8 @@ class Scenes extends StatelessWidget {
         //       {'sourceName': 'was geht ab', 'playPause': false}),
         //   text: 'SOUND',
         // ),
-        // SizedBox(height: 24.0),
-        // StudioModeTransitionButton(),
+        SizedBox(height: 6.0),
+        StudioModeTransitionButton(),
         // SizedBox(height: 24.0),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.end,
@@ -67,7 +67,7 @@ class Scenes extends StatelessWidget {
         //   ],
         // ),
         // SizedBox(height: 24.0),
-        // ScenePreview(),
+        ScenePreview(),
         // SizedBox(height: 24.0),
         ResponsiveWidgetWrapper(
           mobileWidget: AllSceneContentsMobile(),

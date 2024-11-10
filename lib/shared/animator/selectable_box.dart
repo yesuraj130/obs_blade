@@ -23,7 +23,7 @@ class SelectableBox extends StatelessWidget {
     super.key,
     this.boxAnimation = const Duration(milliseconds: 300),
     this.boxBorderAnimation = const Duration(milliseconds: 50),
-    this.height = 100,
+    this.height = 50,
     this.width = 100,
     required this.selected,
     this.selectedStateBoxBorder,
@@ -54,11 +54,11 @@ class SelectableBox extends StatelessWidget {
             ),
             child: this.child ??
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.fromLTRB(6.0, 0.0, 6.0, 0.0),
                   child: AutoSizeText(
                     this.text ?? '',
                     wrapWords: false,
-                    maxLines: 3,
+                    maxLines: 2,
                     textAlign: TextAlign.center,
                   ),
                 ),

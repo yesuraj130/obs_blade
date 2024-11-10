@@ -92,7 +92,7 @@ class SceneButtons extends StatelessWidget {
 
             return SceneButton(
               scene: scene,
-              height: size,
+              height: size / 2,
               width: size,
               visible: hiddenScene == null,
               onVisibilityTap: () {

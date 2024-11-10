@@ -32,7 +32,7 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
       return DefaultTabController(
         length: dashboardStore.sceneItems.length + 4,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Material(
               color:
@@ -46,9 +46,9 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
                   const Tab(
                     child: Text('Current Items'),
                   ),
-                  const Tab(
-                    child: Text('All Items'),
-                  ),
+                  // const Tab(
+                  //   child: Text('All Items'),
+                  // ),
                   const Tab(
                     child: Text('Audio'),
                   ),
@@ -60,7 +60,7 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
               ),
             ),
             SizedBox(
-              height: 300,
+              height: 550,
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: dashboardStore.sceneItems
@@ -69,7 +69,7 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
                     .toList()
                     .followedBy([
                   const CurrentSceneItems(),
-                  const AllSceneItems(),
+                  // const AllSceneItems(),
                   const AudioInputs(),
                   const MediaInputs(),
                 ]).toList(),

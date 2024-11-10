@@ -80,42 +80,42 @@ class StatusAppBar extends StatelessWidget {
                 'HJM OBS Dashboard',
                 style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
               ),
-              const Padding(
-                padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
-                // child: Observer(builder: (context) {
-                // return Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     StatusDot(
-                //       key: Key(dashboardStore.isLive.toString()),
-                //       size: 10.0,
-                //       color: dashboardStore.isLive
-                //           ? CupertinoColors.activeGreen
-                //           : CupertinoColors.destructiveRed,
-                //       text: dashboardStore.isLive ? 'Live' : 'Not Live',
-                //       style: Theme.of(context).textTheme.bodySmall,
-                //     ),
-                //     const SizedBox(width: 8.0),
-                //     StatusDot(
-                //       key: Key(
-                //           '${dashboardStore.isRecording.toString()}+${dashboardStore.isRecordingPaused.toString()}'),
-                //       size: 10.0,
-                //       color: dashboardStore.isRecording
-                //           ? dashboardStore.isRecordingPaused
-                //               ? CupertinoColors.activeOrange
-                //               : CupertinoColors.activeGreen
-                //           : CupertinoColors.destructiveRed,
-                //       text: dashboardStore.isRecording
-                //           ? dashboardStore.isRecordingPaused
-                //               ? 'Paused Recording'
-                //               : 'Recording'
-                //           : 'Not Recording',
-                //       style: Theme.of(context).textTheme.bodySmall,
-                //     ),
-                //   ],
-                // );
-                // }),
-              ),
+              // const Padding(
+              //   padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
+              // child: Observer(builder: (context) {
+              // return Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     StatusDot(
+              //       key: Key(dashboardStore.isLive.toString()),
+              //       size: 10.0,
+              //       color: dashboardStore.isLive
+              //           ? CupertinoColors.activeGreen
+              //           : CupertinoColors.destructiveRed,
+              //       text: dashboardStore.isLive ? 'Live' : 'Not Live',
+              //       style: Theme.of(context).textTheme.bodySmall,
+              //     ),
+              //     const SizedBox(width: 8.0),
+              //     StatusDot(
+              //       key: Key(
+              //           '${dashboardStore.isRecording.toString()}+${dashboardStore.isRecordingPaused.toString()}'),
+              //       size: 10.0,
+              //       color: dashboardStore.isRecording
+              //           ? dashboardStore.isRecordingPaused
+              //               ? CupertinoColors.activeOrange
+              //               : CupertinoColors.activeGreen
+              //           : CupertinoColors.destructiveRed,
+              //       text: dashboardStore.isRecording
+              //           ? dashboardStore.isRecordingPaused
+              //               ? 'Paused Recording'
+              //               : 'Recording'
+              //           : 'Not Recording',
+              //       style: Theme.of(context).textTheme.bodySmall,
+              //     ),
+              //   ],
+              // );
+              // }),
+              // ),
             ],
           ),
         ],
