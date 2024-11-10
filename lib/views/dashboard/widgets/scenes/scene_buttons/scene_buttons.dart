@@ -24,7 +24,7 @@ class SceneButtons extends StatelessWidget {
 
   const SceneButtons({
     super.key,
-    this.size = 100,
+    this.size = 80,
     this.mode = SceneButtonsMode.wrap,
   });
 
@@ -127,7 +127,7 @@ class SceneButtons extends StatelessWidget {
                 children: sceneButtons,
               ),
             SceneButtonsMode.horizontalScroll => SizedBox(
-                height: this.size + 24.0,
+                height: this.size + 12.0,
                 child: MediaQuery.removePadding(
                   removeBottom: true,
                   context: context,
@@ -137,11 +137,11 @@ class SceneButtons extends StatelessWidget {
                     trackVisibility: true,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(6.0),
                       itemCount: sceneButtons.length,
                       itemBuilder: (context, index) => sceneButtons[index],
                       separatorBuilder: (context, index) =>
-                          const SizedBox(width: 12.0),
+                          const SizedBox(width: 6.0),
                     ),
                   ),
                 ),

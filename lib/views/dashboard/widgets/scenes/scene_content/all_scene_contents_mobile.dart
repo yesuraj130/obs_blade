@@ -75,6 +75,18 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
                 ]).toList(),
               ),
             ),
+            // TabBarView(
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   children: dashboardStore.sceneItems
+            //       .map((x) => NamedSceneItems(sceneName: x.sceneName) as Widget)
+            //       .toList()
+            //       .followedBy([
+            //     const CurrentSceneItems(),
+            //     const AllSceneItems(),
+            //     const AudioInputs(),
+            //     const MediaInputs(),
+            //   ]).toList(),
+            // ),
           ],
         ),
       );

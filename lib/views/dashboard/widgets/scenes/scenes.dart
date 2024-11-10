@@ -16,7 +16,7 @@ import 'scene_content/scene_content_mobile.dart';
 import 'scene_preview/scene_preview.dart';
 // import '../../../../stores/views/dashboard.dart';
 
-const double kSceneButtonSpace = 18.0;
+const double kSceneButtonSpace = 9.0;
 
 class Scenes extends StatelessWidget {
   const Scenes({
@@ -29,26 +29,26 @@ class Scenes extends StatelessWidget {
 
     return const Column(
       children: [
-        ProfileSceneCollection(),
-        ExposedControls(),
-        SizedBox(height: 24.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            StudioModeCheckbox(),
-            SizedBox(width: 24.0),
-          ],
-        ),
-        Center(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 32.0,
-              left: kSceneButtonSpace,
-              right: kSceneButtonSpace,
+        // ProfileSceneCollection(),
+        // ExposedControls(),
+        // SizedBox(height: 24.0),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: [
+        //     StudioModeCheckbox(),
+        //     SizedBox(width: 24.0),
+        //   ],
+        // ),
+        Center(child: SceneButtons()
+            // child: Padding(
+            //   padding: EdgeInsets.only(
+            //     top: 32.0,
+            //     left: kSceneButtonSpace,
+            //     right: kSceneButtonSpace,
+            //   ),
+            //   child: SceneButtons(),
+            // ),
             ),
-            child: SceneButtons(),
-          ),
-        ),
         // BaseButton(
         //   onPressed: () => NetworkHelper.makeRequest(
         //       GetIt.instance<NetworkStore>().activeSession.socket,
@@ -56,19 +56,19 @@ class Scenes extends StatelessWidget {
         //       {'sourceName': 'was geht ab', 'playPause': false}),
         //   text: 'SOUND',
         // ),
-        SizedBox(height: 24.0),
-        StudioModeTransitionButton(),
-        SizedBox(height: 24.0),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TransitionControls(),
-            SizedBox(width: 24.0),
-          ],
-        ),
-        SizedBox(height: 24.0),
-        ScenePreview(),
-        SizedBox(height: 24.0),
+        // SizedBox(height: 24.0),
+        // StudioModeTransitionButton(),
+        // SizedBox(height: 24.0),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: [
+        //     TransitionControls(),
+        //     SizedBox(width: 24.0),
+        //   ],
+        // ),
+        // SizedBox(height: 24.0),
+        // ScenePreview(),
+        // SizedBox(height: 24.0),
         ResponsiveWidgetWrapper(
           mobileWidget: AllSceneContentsMobile(),
 

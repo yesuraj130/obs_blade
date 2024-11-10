@@ -16,10 +16,11 @@ class DashboardContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return const CustomSliverList(
       children: [
-        Padding(
-          padding: EdgeInsets.only(bottom: 24.0),
-          child: Scenes(),
-        ),
+        Scenes()
+        // Padding(
+        //   padding: EdgeInsets.only(bottom: 24.0),
+        //   child: Scenes(),
+        // ),
         // Container(
         //   padding: const EdgeInsets.only(left: 8.0),
         //   alignment: Alignment.centerLeft,
