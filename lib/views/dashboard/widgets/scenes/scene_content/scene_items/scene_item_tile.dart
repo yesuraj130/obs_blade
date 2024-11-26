@@ -11,6 +11,7 @@ import '../../../../../../types/classes/api/scene_item.dart';
 import '../../../../../../types/enums/hive_keys.dart';
 import '../../../../../../types/enums/request_type.dart';
 import '../../../../../../types/enums/settings_keys.dart';
+import '../../../../../../utils/general_helper.dart';
 import '../../../../../../utils/network_helper.dart';
 
 class SceneItemTile extends StatelessWidget {
@@ -97,11 +98,15 @@ class SceneItemTile extends StatelessWidget {
           ),
           IconButton(
             onPressed: this.sceneItem.filters.isNotEmpty
-                ? () => ModalHandler.showBaseCupertinoBottomSheet(
+                ? () {
+                    GeneralHelper.advLog(
+                        'FilterListTesting-${this.sceneItem.sceneName}-${this.sceneItem.sourceName}-${this.sceneItem.filters.length}');
+                    ModalHandler.showBaseCupertinoBottomSheet(
                       context: context,
                       modalWidgetBuilder: (context, controller) =>
                           FilterList(sceneItem: this.sceneItem),
-                    )
+                    );
+                  }
                 : null,
             icon: const Icon(CupertinoIcons.color_filter),
           )

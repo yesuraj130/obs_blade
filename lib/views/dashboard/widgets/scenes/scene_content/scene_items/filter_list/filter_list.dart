@@ -68,17 +68,11 @@ class _FilterListState extends State<FilterList> {
         /// underlying [SceneItem] is updated but not a new one is provided
         /// here in the widget since it's being called imperatively...
         late SceneItem sceneItem;
-        try {
-          sceneItem = dashboardStore.currentSceneItems.firstWhere(
-            (sceneItem) => sceneItem.sceneItemId == sceneItem.sceneItemId,
-          );
-        } catch (_) {
-          Navigator.of(context).pop();
-        }
+        sceneItem = widget.sceneItem;
         return Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -90,10 +84,10 @@ class _FilterListState extends State<FilterList> {
                     sceneItem.sourceName!,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
-                  const SizedBox(height: 12.0),
+                  const SizedBox(height: 2.0),
                   const Text(
                       'List of filters which are attached to the selected scene item.'),
-                  const SizedBox(height: 24.0),
+                  const SizedBox(height: 4.0),
                   const BaseDivider(),
                 ],
               ),
@@ -101,19 +95,17 @@ class _FilterListState extends State<FilterList> {
             Expanded(
               child: Scrollbar(
                 child: ListView(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.paddingOf(context).bottom + 24.0,
-                  ),
                   children: sceneItem.filters
                       .map(
                         (filter) => BaseCard(
-                          leftPadding: 24.0,
-                          rightPadding: 24.0,
+                          leftPadding: 6.0,
+                          rightPadding: 6.0,
                           bottomPadding: 0,
+                          topPadding: 0,
                           title: filter.filterName,
                           titlePadding: const EdgeInsets.symmetric(
-                            horizontal: 18.0,
-                            vertical: 12.0,
+                            horizontal: 6.0,
+                            vertical: 0.0,
                           ),
                           titleStyle: Theme.of(context).textTheme.bodyLarge,
                           trailingTitleWidget: IconButton(
@@ -140,35 +132,35 @@ class _FilterListState extends State<FilterList> {
                                   : CupertinoColors.destructiveRed,
                             ),
                           ),
-                          child: Column(
-                            children: filter.filterSettings.entries
-                                .map(
-                                  (filterSetting) => Padding(
-                                    padding: const EdgeInsets.only(bottom: 8.0),
-                                    child: DynamicInput(
-                                      label: filterSetting.key,
-                                      value: filterSetting.value,
-                                      onUpdate: (updatedValue) {
-                                        NetworkHelper.makeRequest(
-                                          GetIt.instance<NetworkStore>()
-                                              .activeSession!
-                                              .socket,
-                                          RequestType.SetSourceFilterSettings,
-                                          {
-                                            'sourceName': sceneItem.sourceName,
-                                            'filterName': filter.filterName,
-                                            'filterSettings': {}
-                                              ..addAll(filter.filterSettings)
-                                              ..update(filterSetting.key,
-                                                  (value) => updatedValue),
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
+                          child: const Column(
+                              // children: filter.filterSettings.entries
+                              //     .map(
+                              //       (filterSetting) => Padding(
+                              //         padding: const EdgeInsets.only(bottom: 2.0),
+                              //         child: DynamicInput(
+                              //           label: filterSetting.key,
+                              //           value: filterSetting.value,
+                              //           onUpdate: (updatedValue) {
+                              //             NetworkHelper.makeRequest(
+                              //               GetIt.instance<NetworkStore>()
+                              //                   .activeSession!
+                              //                   .socket,
+                              //               RequestType.SetSourceFilterSettings,
+                              //               {
+                              //                 'sourceName': sceneItem.sourceName,
+                              //                 'filterName': filter.filterName,
+                              //                 'filterSettings': {}
+                              //                   ..addAll(filter.filterSettings)
+                              //                   ..update(filterSetting.key,
+                              //                       (value) => updatedValue),
+                              //               },
+                              //             );
+                              //           },
+                              //         ),
+                              //       ),
+                              //     )
+                              //     .toList(),
+                              ),
                         ),
                       )
                       .toList(),

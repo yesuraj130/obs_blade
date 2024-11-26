@@ -587,19 +587,35 @@ abstract class _DashboardStore with Store {
     _checkConnectionTimer?.cancel();
   }
 
-  void fetchSceneItemsFilters() => NetworkHelper.makeBatchRequest(
-        GetIt.instance<NetworkStore>().activeSession!.socket,
-        RequestBatchType.FilterList,
-        this
-            .currentSceneItems
-            .map(
-              (sceneItem) => RequestBatchObject(
-                RequestType.GetSourceFilterList,
-                {'sourceName': sceneItem.sourceName},
-              ),
-            )
-            .toList(),
-      );
+  void fetchSceneItemsFilters() {
+    // NetworkHelper.makeBatchRequest(
+    //   GetIt.instance<NetworkStore>().activeSession!.socket,
+    //   RequestBatchType.FilterList,
+    //   this
+    //       .currentSceneItems
+    //       .map(
+    //         (sceneItem) => RequestBatchObject(
+    //           RequestType.GetSourceFilterList,
+    //           {'sourceName': sceneItem.sourceName},
+    //         ),
+    //       )
+    //       .toList(),
+    // );
+
+    NetworkHelper.makeBatchRequest(
+      GetIt.instance<NetworkStore>().activeSession!.socket,
+      RequestBatchType.FilterList,
+      this
+          .allSceneItems
+          .map(
+            (sceneItem) => RequestBatchObject(
+              RequestType.GetSourceFilterList,
+              {'sourceName': sceneItem.sourceName},
+            ),
+          )
+          .toList(),
+    );
+  }
 
   @action
   void init() {
@@ -1790,6 +1806,80 @@ abstract class _DashboardStore with Store {
               return sceneItem.copyWith(filters: filters);
             }),
           );
+
+          for (final x in this.sceneItems) {
+            x.sceneItems = ObservableList.of(
+              x.sceneItems.map((sceneItem) {
+                final filterObject = filterObjects.firstWhere((filterObject) =>
+                    filterObject['sourceName'] == sceneItem.sourceName);
+                final List<Filter> responseFilters =
+                    (filterObject['response'] as GetSourceFilterListResponse)
+                        .filters;
+
+                /// Our existing [Filter]s are the leading information. Since the
+                /// the order is: first getting all [Filter]s of a [SceneItem]
+                /// which will only expose the FilterSettings of non-default values
+                /// and then (since we now have the [filterKind]s) we fetch the
+                /// default FilterSettings of these.
+                List<Filter> filters = [...sceneItem.filters];
+
+                /// If this is the first time we fetch the current [Filter]s or we
+                /// have new ones or some were deleted, we can just add them since
+                /// there are no default ones.
+                if (filters.length != responseFilters.length) {
+                  filters = [];
+                  filters.addAll(
+                      responseFilters.map(_populateFiltersWithDefaults));
+                } else {
+                  /// We handle this case if this is a subsequent fetch and our
+                  /// [Filter]s are already populated. Here we need to make sure
+                  /// to find the correct corresponding FilterSetting of our response
+                  /// and update our existing ones.
+                  filters = filters.map((filter) {
+                    final responseFilterSettings = responseFilters
+                        .firstWhere((responseFilter) =>
+                            responseFilter.filterKind == filter.filterKind)
+                        .filterSettings;
+
+                    final filterSettings = <String, dynamic>{}
+                      ..addAll(filter.filterSettings);
+
+                    _removeEmptyDefaultFilterSettings(
+                      filterSettings,
+                      responseFilterSettings,
+                      filter,
+                    );
+
+                    for (final responseFilterSetting
+                        in responseFilterSettings.entries) {
+                      filterSettings.update(
+                        responseFilterSetting.key,
+                        (_) => responseFilterSetting.value,
+                        ifAbsent: () => responseFilterSetting.value,
+                      );
+                    }
+
+                    return filter.copyWith(filterSettings: filterSettings);
+                  }).toList();
+                }
+                filters.sort((a, b) => a.filterIndex - b.filterIndex);
+
+                return sceneItem.copyWith(filters: filters);
+              }),
+            );
+          }
+
+          ObservableList<ObservableSceneItems> sceneItemsLocal =
+              ObservableList();
+          for (final x in this.sceneItems) {
+            sceneItemsLocal.add(x);
+            for (final y in x.sceneItems) {
+              GeneralHelper.advLog(
+                  'FilterListTest-${x.sceneName}-${y.sourceName}-${y.filters.length}');
+            }
+          }
+
+          this.sceneItems = sceneItemsLocal;
         }
 
         /// Since this request is used for updating our FilterSettings but is
@@ -1809,7 +1899,16 @@ abstract class _DashboardStore with Store {
             }
           }
         }
-
+        for (final observableSceneItem in this.sceneItems) {
+          for (final sceneItem in observableSceneItem.sceneItems) {
+            for (final filter in sceneItem.filters) {
+              if (!_defaultFilters.any((defaultFilter) =>
+                  defaultFilter.filterKind == filter.filterKind)) {
+                filterKinds.add(filter.filterKind);
+              }
+            }
+          }
+        }
         if (filterKinds.isNotEmpty) {
           NetworkHelper.makeBatchRequest(
             GetIt.instance<NetworkStore>().activeSession!.socket,
@@ -1859,6 +1958,17 @@ abstract class _DashboardStore with Store {
               ),
         );
 
+        this.sceneItems.forEach((x) {
+          x.sceneItems = ObservableList.of(
+            x.sceneItems.map(
+              (sceneItem) => sceneItem.copyWith(
+                filters: sceneItem.filters
+                    .map(_populateFiltersWithDefaults)
+                    .toList(),
+              ),
+            ),
+          );
+        });
         break;
     }
   }

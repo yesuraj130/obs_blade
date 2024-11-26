@@ -132,10 +132,11 @@ class BaseCard extends StatelessWidget {
               ),
             if (this.titleWidget != null || this.title != null)
               const BaseDivider(),
-            Padding(
-              padding: this.paddingChild,
-              child: this.child,
-            ),
+            // Padding(
+            // padding: this.paddingChild,
+            // child:
+            this.child,
+            // ),
           ],
         ),
       ),

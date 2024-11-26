@@ -60,7 +60,7 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
               ),
             ),
             SizedBox(
-              height: 550,
+              height: 600,
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: dashboardStore.sceneItems
