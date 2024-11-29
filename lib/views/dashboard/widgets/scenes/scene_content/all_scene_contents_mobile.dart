@@ -27,10 +27,10 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
   Widget build(BuildContext context) {
     super.build(context);
     DashboardStore dashboardStore = GetIt.instance<DashboardStore>();
-
+    double tabHeight = 30.0;
     return Observer(builder: (context) {
       return DefaultTabController(
-        length: dashboardStore.sceneItems.length + 4,
+        length: dashboardStore.sceneItems.length + 3,
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
@@ -38,22 +38,29 @@ class _AllSceneContentsMobileState extends State<AllSceneContentsMobile>
               color:
                   Theme.of(context).cupertinoOverrideTheme!.barBackgroundColor,
               child: TabBar(
-                isScrollable: true,
+                // isWrap: true,
+                labelColor: Theme.of(context).buttonTheme.colorScheme!.primary,
+                isScrollable: false,
+                tabAlignment: TabAlignment.fill,
+                labelPadding: const EdgeInsets.fromLTRB(15, 3, 15, 3),
                 tabs: dashboardStore.sceneItems
-                    .map((x) => Tab(child: Text(x.sceneName)))
+                    .map((x) => Tab(height: tabHeight, child: Text(x.sceneName)))
                     .toList()
                     .followedBy([
-                  const Tab(
-                    child: Text('Current Items'),
+                  Tab(
+                    height: tabHeight,
+                    child: const Text('Current'),
                   ),
                   // const Tab(
                   //   child: Text('All Items'),
                   // ),
-                  const Tab(
-                    child: Text('Audio'),
+                  Tab(
+                    height: tabHeight,
+                    child: const Text('Audio'),
                   ),
-                  const Tab(
-                    child: Text('Media'),
+                  Tab(
+                    height: tabHeight,
+                    child: const Text('Media'),
                   ),
                 ]).toList(),
                 dividerColor: Colors.transparent,

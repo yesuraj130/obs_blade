@@ -39,7 +39,7 @@ class _CurrentSceneItemsState extends State<CurrentSceneItems>
           child: ListView(
             controller: _controller,
             physics: const ClampingScrollPhysics(),
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 28.0),
             children: [
               ...dashboardStore.currentSceneItems.isNotEmpty
                   ? dashboardStore.currentSceneItems

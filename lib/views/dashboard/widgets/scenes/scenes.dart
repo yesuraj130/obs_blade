@@ -29,13 +29,12 @@ class Scenes extends StatelessWidget {
 
     return const Column(
       children: [
-        // ProfileSceneCollection(),
-        // ExposedControls(),
+        ProfileSceneCollection(),
+        ExposedControls(),
         SizedBox(height: 6.0),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.end,
         //   children: [
-        //     StudioModeCheckbox(),
         //     SizedBox(width: 24.0),
         //   ],
         // ),
@@ -57,7 +56,14 @@ class Scenes extends StatelessWidget {
         //   text: 'SOUND',
         // ),
         SizedBox(height: 6.0),
-        StudioModeTransitionButton(),
+        Row(
+          children: [
+            SizedBox(width: 24.0),
+            StudioModeCheckbox(),
+            SizedBox(width: 24.0),
+            StudioModeTransitionButton(),
+          ],
+        ),
         // SizedBox(height: 24.0),
         // Row(
         //   mainAxisAlignment: MainAxisAlignment.end,

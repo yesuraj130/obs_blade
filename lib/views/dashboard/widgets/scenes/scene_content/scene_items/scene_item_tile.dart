@@ -24,10 +24,9 @@ class SceneItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DashboardStore dashboardStore = GetIt.instance<DashboardStore>();
-
     return ListTile(
       dense: true,
+      visualDensity: const VisualDensity(horizontal: -3, vertical: -3),
       leading: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -53,10 +52,13 @@ class SceneItemTile extends StatelessWidget {
           ),
         ],
       ),
-      title: Text(
-        this.sceneItem.sourceName!,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+      title: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+        child: Text(
+          this.sceneItem.sourceName!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
       ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
